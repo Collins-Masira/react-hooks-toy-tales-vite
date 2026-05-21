@@ -1,19 +1,28 @@
-import React from "react";
+import { useState } from "react";
 
-function ToyCard() {
+export default function ToyCard({ toy, onLikeToy, onDeleteToy }) {
+  const [likes, setLikes] = useState(toy.likes);
+
+  function handleLike() {
+    const updatedLikes = likes + 1;
+    setLikes(updatedLikes);
+    onLikeToy(toy, updatedLikes);
+  }
+
   return (
-    <div className="card" data-testid="toy-card">
-      <h2>{"" /* Toy's Name */}</h2>
-      <img
-        src={"" /* Toy's Image */}
-        alt={"" /* Toy's Name */}
-        className="toy-avatar"
-      />
-      <p>{"" /* Toy's Likes */} Likes </p>
-      <button className="like-btn">Like {"<3"}</button>
-      <button className="del-btn">Donate to GoodWill</button>
+    <div data-testid="toy-card">
+      <h2>{toy.name}</h2>
+
+      <img src={toy.image} alt={toy.name} width="200" />
+
+      {/* IMPORTANT SPACE FIX */}
+      <p>{likes} Likes </p>
+
+      <button onClick={handleLike}>Like &lt;3</button>
+
+      <button onClick={() => onDeleteToy(toy.id)}>
+        Donate to GoodWill
+      </button>
     </div>
   );
 }
-
-export default ToyCard;
